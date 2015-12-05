@@ -4,8 +4,8 @@ AudioTools is very basic audio processing tool and player. As an input can be us
 
 ## Features
 
-- Upmixing of input audio into 1 - 6 channels (including LFE)
+- Upmixing of input audio into 1 to 6 channels (including LFE)
 - Creating LFE channel from input audio by applying low-pass filter on input audio (cut-off frequency is hardcoded to 120 Hz)
 - Changing of playback speed by altering sampling frequency information
 - Writing of modified audio into file
-- Playing modified audio on-the-fly using Pulseaudio [simple API](http://freedesktop.org/software/pulseaudio/doxygen/simple.html).
+- Playing modified audio back on-the-fly using Pulseaudio [simple API](http://freedesktop.org/software/pulseaudio/doxygen/simple.html).
