@@ -55,8 +55,4 @@ void at_set_frame_duration(int duration);
 // parse input arguments
 void at_parse_input_args(AT_INFO *info, SF_INFO *sfinfo, bool verbose);
 
-// remove after use of autotools
-#define PACKAGE_VERSION "0.1"
-
-
 #endif /* AUDIOTOOLS_H_ */

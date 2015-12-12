@@ -1,0 +1,3 @@
+// Program's version number
+#define AudioTools_VERSION_MAJOR @AudioTools_VERSION_MAJOR@
+#define AudioTools_VERSION_MINOR @AudioTools_VERSION_MINOR@

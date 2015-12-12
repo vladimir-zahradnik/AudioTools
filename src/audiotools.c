@@ -20,7 +20,9 @@
 #include <string.h>
 #include <getopt.h>
 #include <ctype.h>
+
 #include "audiotools.h"
+#include "config.h"
 
 /* Print usage */
 static void help(const char *argv0);
@@ -81,7 +83,7 @@ int main(int argc, char **argv) {
                 help(argv[0]);
                 return 0;
             case 'v': // version
-                printf("AudioTools %s\n", PACKAGE_VERSION);
+                printf("AudioTools version %d.%d\n", AudioTools_VERSION_MAJOR, AudioTools_VERSION_MINOR);
                 return 0;
             case 'o': // output file specified
                 info.out_file = optarg;
