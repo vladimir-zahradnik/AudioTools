@@ -25,39 +25,38 @@
 #    define M_PI 3.14159265358979323846
 #endif
 
-#define MAX_CHANNELS	  6					// maximum count of channels for input/output audio
+#define MAX_CHANNELS      6                    // maximum count of channels for input/output audio
 
-#define CUTOFF_FREQ		120					// defined cutoff frequency for simple low-pass filter for LFE
+#define CUTOFF_FREQ        120                    // defined cutoff frequency for simple low-pass filter for LFE
 
 
-enum channel_map
-{	FL = 0,		// Front-Left or Mono Channel
-	FR = 1,		// Front-Right
-	C = 2,		// Center
-	LFE = 3,	// Low-Frequency Effects Channel
-	SL = 4,		// Surround-Left
-	SR = 5		// Surround-Right
+enum channel_map {
+    FL = 0,        // Front-Left or Mono Channel
+    FR = 1,        // Front-Right
+    C = 2,        // Center
+    LFE = 3,    // Low-Frequency Effects Channel
+    SL = 4,        // Surround-Left
+    SR = 5        // Surround-Right
 };
 
-typedef struct audio_container_t
-{
-	double *channel [MAX_CHANNELS];	// data samples for each channel
-	int length;							// size of an array
-	int used_channels;					// number of actually used arrays for storing channels
-	int samplerate;						// sample rate
+typedef struct audio_container_t {
+    double *channel[MAX_CHANNELS];    // data samples for each channel
+    size_t length;                    // size of an array
+    int used_channels;                // number of actually used arrays for storing channels
+    int samplerate;                    // sample rate
 } audio_container_t;
 
-extern sf_count_t at_audio_processor (SNDFILE *infile, SNDFILE *outfile);
+extern sf_count_t at_audio_processor(SNDFILE *infile, SNDFILE *outfile);
 
-extern audio_container_t* at_allocate_buffer (int channels, int size, int samplerate);
+extern audio_container_t *at_allocate_buffer(int channels, size_t size, int samplerate);
 
-extern int at_free_buffer (audio_container_t *buffer);
+extern int at_free_buffer(audio_container_t *buffer);
 
 /* separate_channels */
-int at_separate_channels (double * multi_data, audio_container_t *container, int input_channels);
+int at_separate_channels(double *multi_data, audio_container_t *container, int input_channels);
 
 /* combine_channels_double */
-int at_combine_channels (double * multi_data, audio_container_t *container, int output_channels);
+int at_combine_channels(double *multi_data, audio_container_t *container, int output_channels);
 
 /* simple audio upmix */
 void at_interleave_audio(audio_container_t *container, int input_channels, int fft_size);
@@ -66,7 +65,7 @@ void at_interleave_audio(audio_container_t *container, int input_channels, int f
 void at_audio_gain(audio_container_t *container, double gain);
 
 /* apply_window */
-int apply_window (audio_container_t *container, int datalen);
+int apply_window(audio_container_t *container, size_t datalen);
 
 /* create LFE channel */
 void at_create_lfe(audio_container_t *container, int sampling_freq, int fft_size);

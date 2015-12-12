@@ -19,8 +19,8 @@
 #define COMMON_H_
 
 #define ARRAY_LEN(x)                     ((int) (sizeof (x) / sizeof (x [0])))
-#define MAX(x,y)                         ((x) > (y) ? (x) : (y))
-#define MIN(x,y)                         ((x) < (y) ? (x) : (y))
+#define MAX(x, y)                         ((x) > (y) ? (x) : (y))
+#define MIN(x, y)                         ((x) < (y) ? (x) : (y))
 
 
 /* Boolean support */
@@ -45,12 +45,12 @@
 #include <stdlib.h>
 
 /* create dynamic double array */
-extern double * init_buffer_dbl(size_t size);
+extern double *init_buffer_dbl(size_t size);
 
 /* print time based on samples played */
-char* show_time(int samplerate, int samples);
+char *show_time(int samplerate, int samples);
 
 // check for NaN and Inf and replace by 0.0
-double check_nan (double number);
+double check_nan(double number);
 
 #endif /* COMMON_H_ */

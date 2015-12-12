@@ -16,105 +16,93 @@
 */
 
 #include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <fcntl.h>
 #include "pa_play.h"
 
-pa_simple * at_pulse_init(int channels, int samplerate)
-{
-	int error;
+pa_simple *at_pulse_init(int channels, int samplerate) {
+    int error;
 
-	/* The Sample format to use */
+    /* The Sample format to use */
     pa_sample_spec ss = {
-    		.rate = samplerate,
-    		.format = PA_SAMPLE_FLOAT32LE,
-    		.channels = channels
+            .rate = (uint32_t) samplerate,
+            .format = PA_SAMPLE_FLOAT32LE,
+            .channels = (uint8_t) channels
     };
 
 
-	/* Channel map */
-	static pa_channel_map channel_map;
+    /* Channel map */
+    static pa_channel_map channel_map;
 
-	// Connection to server
-	pa_simple *s = NULL;
+    // Connection to server
+    pa_simple *s = NULL;
 
-	// init channel map
-	pa_channel_map_init (&channel_map);
+    // init channel map
+    pa_channel_map_init(&channel_map);
 
-	// if playing LFE or mono file
-	if (channels == 1)
-	{
-		 channel_map.channels = 1;
+    // if playing LFE or mono file
+    if (channels == 1) {
+        channel_map.channels = 1;
 
-		 // LFE specified
-		 if (at_get_lfe_only_setting() == true)
-		 {
-			 channel_map.map[0] = PA_CHANNEL_POSITION_LFE;
-		 }
-		 else
-			 channel_map.map[0] = PA_CHANNEL_POSITION_LEFT;
-	}
+        // LFE specified
+        if (at_get_lfe_only_setting() == true) {
+            channel_map.map[0] = PA_CHANNEL_POSITION_LFE;
+        }
+        else
+            channel_map.map[0] = PA_CHANNEL_POSITION_LEFT;
+    }
 
-	// 2-channel audio
-	if (channels == 2)
-		pa_channel_map_init_stereo(&channel_map);
+    // 2-channel audio
+    if (channels == 2)
+        pa_channel_map_init_stereo(&channel_map);
 
-	// 3-channel audio: FL, FR, C
-	if (channels == 3)
-	{
-		pa_channel_map_init (&channel_map);
-		channel_map.channels = 3;
-		channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
-		channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
-		channel_map.map[2] = PA_CHANNEL_POSITION_FRONT_CENTER;
-	}
+    // 3-channel audio: FL, FR, C
+    if (channels == 3) {
+        pa_channel_map_init(&channel_map);
+        channel_map.channels = 3;
+        channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
+        channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
+        channel_map.map[2] = PA_CHANNEL_POSITION_FRONT_CENTER;
+    }
 
-	// 4-channel audio: FL, FR, SL, SR
-	if (channels == 4)
-	{
-		pa_channel_map_init (&channel_map);
-		channel_map.channels = 4;
-		channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
-		channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
-		channel_map.map[2] = PA_CHANNEL_POSITION_REAR_LEFT;
-		channel_map.map[3] = PA_CHANNEL_POSITION_REAR_RIGHT;
-	}
+    // 4-channel audio: FL, FR, SL, SR
+    if (channels == 4) {
+        pa_channel_map_init(&channel_map);
+        channel_map.channels = 4;
+        channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
+        channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
+        channel_map.map[2] = PA_CHANNEL_POSITION_REAR_LEFT;
+        channel_map.map[3] = PA_CHANNEL_POSITION_REAR_RIGHT;
+    }
 
-	// 5-channel audio: FL, FR, C, SL, SR
-	if (channels == 5)
-	{
-		pa_channel_map_init (&channel_map);
-		channel_map.channels = 5;
-		channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
-		channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
-		channel_map.map[2] = PA_CHANNEL_POSITION_FRONT_CENTER;
-		channel_map.map[3] = PA_CHANNEL_POSITION_REAR_LEFT;
-		channel_map.map[4] = PA_CHANNEL_POSITION_REAR_RIGHT;
-	}
+    // 5-channel audio: FL, FR, C, SL, SR
+    if (channels == 5) {
+        pa_channel_map_init(&channel_map);
+        channel_map.channels = 5;
+        channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
+        channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
+        channel_map.map[2] = PA_CHANNEL_POSITION_FRONT_CENTER;
+        channel_map.map[3] = PA_CHANNEL_POSITION_REAR_LEFT;
+        channel_map.map[4] = PA_CHANNEL_POSITION_REAR_RIGHT;
+    }
 
-	// 6-channel audio: FL, FR, C, LFE, SL, SR
-	if (channels == 6)
-	{
-		pa_channel_map_init (&channel_map);
-		channel_map.channels = 6;
-		channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
-		channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
-		channel_map.map[2] = PA_CHANNEL_POSITION_FRONT_CENTER;
-		channel_map.map[3] = PA_CHANNEL_POSITION_LFE;
-		channel_map.map[4] = PA_CHANNEL_POSITION_REAR_LEFT;
-		channel_map.map[5] = PA_CHANNEL_POSITION_REAR_RIGHT;
-	}
+    // 6-channel audio: FL, FR, C, LFE, SL, SR
+    if (channels == 6) {
+        pa_channel_map_init(&channel_map);
+        channel_map.channels = 6;
+        channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
+        channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
+        channel_map.map[2] = PA_CHANNEL_POSITION_FRONT_CENTER;
+        channel_map.map[3] = PA_CHANNEL_POSITION_LFE;
+        channel_map.map[4] = PA_CHANNEL_POSITION_REAR_LEFT;
+        channel_map.map[5] = PA_CHANNEL_POSITION_REAR_RIGHT;
+    }
 
-	/* Create a new playback stream */
-	if (!(s = pa_simple_new(NULL, "Audio Toolkit", PA_STREAM_PLAYBACK, NULL,
-			"audio stream", &ss, &channel_map, NULL, &error)))
-	{
-		fprintf(stderr, __FILE__": pa_simple_new() failed: %s\n", pa_strerror(error));
-		exit(1);
-	}
+    /* Create a new playback stream */
+    if (!(s = pa_simple_new(NULL, "Audio Toolkit", PA_STREAM_PLAYBACK, NULL,
+                            "audio stream", &ss, &channel_map, NULL, &error))) {
+        fprintf(stderr, __FILE__": pa_simple_new() failed: %s\n", pa_strerror(error));
+        exit(1);
+    }
 
-	// init completed
-	return s;
+    // init completed
+    return s;
 }

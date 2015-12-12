@@ -22,14 +22,14 @@
 #include "dsp.h"
 
 typedef struct AT_INFO {
-	short out_channels;		// no. of channels for output audio
-	bool lfe_only;			// LFE output only
-	const char *in_file;	// input filename
-	const char *out_file; 	// output filename
-	int frame_duration; 	// frame duration
-	int overlap;			// overlap
-	double volume;			// volume setting
-	double playback_speed;  // tempo setting
+    int out_channels;        // no. of channels for output audio
+    bool lfe_only;            // LFE output only
+    const char *in_file;    // input filename
+    const char *out_file;    // output filename
+    int frame_duration;    // frame duration
+    int overlap;            // overlap
+    double volume;            // volume setting
+    double playback_speed;  // tempo setting
 } AT_INFO;
 
 // getters for AT_INFO
@@ -45,7 +45,7 @@ double at_get_volume(void);
 
 double at_get_playback_speed(void);
 
-const char* at_get_out_file(void);
+const char *at_get_out_file(void);
 
 // putters for AT_INFO
 void at_set_out_channels(int channels);

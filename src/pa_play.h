@@ -24,6 +24,6 @@
 #include <pulse/error.h>
 
 // initialize PA Simple API
-pa_simple * at_pulse_init(int channels, int samplerate);
+pa_simple *at_pulse_init(int channels, int samplerate);
 
 #endif /* PA_PLAY_H_ */

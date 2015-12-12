@@ -21,44 +21,40 @@
 #include <math.h>
 #include "common.h"
 
-double* init_buffer_dbl(size_t size)
-{
-  double *ptr = (double *) malloc (sizeof(*ptr) * size);
+double *init_buffer_dbl(size_t size) {
+    double *ptr = (double *) malloc(sizeof(*ptr) * size);
 
-  if (ptr == NULL)
-  {
-     fprintf(stdout, "\nError: malloc failed: %s\n", strerror(errno));
-     exit (1);
-  }
-  /* initialize array to zero */
-  memset ((void *) ptr, 0, sizeof(*ptr) * size);
+    if (ptr == NULL) {
+        fprintf(stdout, "\nError: malloc failed: %s\n", strerror(errno));
+        exit(1);
+    }
+    /* initialize array to zero */
+    memset((void *) ptr, 0, sizeof(*ptr) * size);
 
-  return (ptr);
+    return (ptr);
 }
 
-char* show_time(int samplerate, int samples)
-{
-   static char time_buff [15];
-   int hours, minutes;
-   double seconds;
+char *show_time(int samplerate, int samples) {
+    static char time_buff[15];
+    int hours, minutes;
+    double seconds;
 
-   seconds = (double) samples / samplerate;
+    seconds = (double) samples / samplerate;
 
-   minutes = seconds / 60;
-   seconds -= minutes * 60;
+    minutes = (int) seconds / 60;
+    seconds -= minutes * 60;
 
-   hours = minutes / 60;
-   minutes -= hours * 60;
+    hours = minutes / 60;
+    minutes -= hours * 60;
 
-   sprintf(time_buff, "%02d:%02d:%06.3f", hours, minutes, seconds);
-   return time_buff;
+    sprintf(time_buff, "%02d:%02d:%06.3f", hours, minutes, seconds);
+    return time_buff;
 }
 
 // check for NaN and Inf and replace by 0.0
-double check_nan (double number)
-{
-   if (isnan(number) || isinf(number))
-    return 0.0;
+double check_nan(double number) {
+    if (isnan((float) number) || isinf((float) number))
+        return 0.0;
 
-   return number;
+    return number;
 }
