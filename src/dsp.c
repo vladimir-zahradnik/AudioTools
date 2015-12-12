@@ -336,7 +336,7 @@ int apply_window(audio_container_t *container, size_t datalen) {
 
     for (int i = 0; i < MAX_CHANNELS; i++) {
         for (size_t j = 0; j < datalen; j++) {
-            container->channel[i][j] *= ((j >= 0) && (j <= datalen - 1)) ?
+            container->channel[i][j] *= (j <= datalen - 1) ?
                                         0.54 - 0.46 * cos(2 * M_PI * j / (datalen - 1)) : 0;
         }
     }

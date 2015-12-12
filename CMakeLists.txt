@@ -14,12 +14,12 @@ find_package(FFTW REQUIRED)
 find_package(MATH REQUIRED)
 
 # Detect Pulseaudio presence -- mandatory for now
-find_package(PulseAudio REQUIRED)
+find_package(LibPulseSimple REQUIRED)
 
-include_directories(${SNDFILE_INCLUDE_DIRS} ${FFTW_INCLUDES} ${PULSEAUDIO_INCLUDE_DIR} ${MATH_INCLUDE_DIR})
+include_directories(${SNDFILE_INCLUDE_DIRS} ${FFTW_INCLUDES} ${LibPulse_INCLUDE_DIRS} ${LibPulseSimple_INCLUDE_DIRS} ${MATH_INCLUDE_DIR})
 
 # Required libraries
-set(CORELIBS ${SNDFILE_LIBRARY} ${FFTW_LIBRARIES} ${PULSEAUDIO_LIBRARY} ${MATH_LIBRARIES})
+set(CORELIBS ${SNDFILE_LIBRARY} ${FFTW_LIBRARIES} ${LibPulse_LIBRARIES} ${LibPulseSimple_LIBRARIES} ${MATH_LIBRARIES})
 
 # Use GNU 99 C standard, which is less strict than C99
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-g -Wall -std=gnu99")
